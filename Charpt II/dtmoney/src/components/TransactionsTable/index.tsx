@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { TransactionContext } from "../../TransactionsContext";
 
+import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./style";
 
 export function TransactionTable() {
-    const transactions = useContext(TransactionContext);
+    const { transactions } = useTransactions();
 
     return (
         <>
@@ -20,32 +19,27 @@ export function TransactionTable() {
                     </thead>
 
                     <tbody>
-                        {transactions.map(transaction => {
-                            return (
-                                <tr key={transaction.id}>
-                                    <td>{transaction.title}</td>
-                                    <td className={transaction.type}>
-                                        {new Intl.NumberFormat('pt-BR', {
-                                            style: 'currency',
-                                            currency: 'BRL',
-                                        }).format(transaction.amount)}
-                                    </td>
-                                    <td>{transaction.category}</td>
-                                    <td>
-                                        {new Intl.DateTimeFormat('pt-BR')
-                                            .format(new Date(transaction.createdAt))}
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                        {transactions.map(transaction => (
+                            <tr key={transaction.id}>
+                                <td>{transaction.title}</td>
+                                <td className={transaction.type}>
+                                    {new Intl.NumberFormat('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL',
+                                    }).format(transaction.amount)}
+                                </td>
+                                <td>{transaction.category}</td>
+                                <td>
+                                    {new Intl.DateTimeFormat('pt-BR')
+                                        .format(new Date(transaction.createdAt))}
+                                </td>
+                            </tr>
+                        )
+                        )}
 
                     </tbody>
                 </table>
             </Container>
         </>
     )
-}
-
-function TransactionsContext(TransactionsContext: any) {
-    throw new Error("Function not implemented.");
 }
